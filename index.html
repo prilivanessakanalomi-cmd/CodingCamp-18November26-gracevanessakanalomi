@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Desktop - Jam, Timer, Kalender & Link</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, 'Times New Roman', Times, serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #eef2f7 0%, #d7e0ee 100%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 30px 20px;
+      color: #1a1a2e;
+    }
+
+    /* ===== NAMA ===== */
+    .name-header {
+      width: 100%;
+      text-align: center;
+      padding: 18px;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      background: #1a1a2e;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(26, 26, 46, 0.2);
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid rgba(26, 26, 46, 0.15);
+      border-radius: 16px;
+      padding: 24px;
+      width: 320px;
+      box-shadow: 0 8px 24px rgba(26, 26, 46, 0.12);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #1a1a2e;
+      border-bottom: 2px solid #1a1a2e;
+      padding-bottom: 10px;
+    }
+
+    /* ===== JAM ===== */
+    #clock {
+      font-size: 60px;
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: 2px;
+      color: #1a1a2e;
+      text-shadow: 0 2px 6px rgba(26, 26, 46, 0.1);
+    }
+
+    #date-now {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #4a4a6a;
+    }
+
+    /* ===== SETEL JAM ===== */
+    .clock-set {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .clock-set input {
+      width: 56px;
+      padding: 8px;
+      border: 1px solid rgba(26, 26, 46, 0.2);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      background: #f5f7fa;
+      color: #1a1a2e;
+    }
+
+    .clock-set span {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* ===== TIMER ===== */
+    #timer-display {
+      font-size: 80px;
+      text-align: center;
+      margin: 10px 0 16px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #1a1a2e;
+    }
+
+    #timer-card {
+      width: 460px;
+    }
+
+    .timer-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .timer-inputs input {
+      width: 60px;
+      padding: 8px;
+      border: 1px solid rgba(26, 26, 46, 0.2);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 16px;
+      background: #f5f7fa;
+      color: #1a1a2e;
+    }
+
+    .timer-inputs span {
+      align-self: center;
+      font-size: 18px;
+    }
+
+    .timer-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1a1a2e;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #2a2a4e;
+    }
+
+    button.reset {
+      background: #c0392b;
+    }
+
+    button.reset:hover {
+      background: #962d22;
+    }
+
+    /* ===== KALENDER ===== */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #1a1a2e;
+    }
+
+    .calendar-header button {
+      padding: 4px 10px;
+      background: #1a1a2e;
+      color: #fff;
+    }
+
+    table.calendar {
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
+      color: #1a1a2e;
+    }
+
+    table.calendar th {
+      font-size: 12px;
+      padding: 6px;
+      color: #4a4a6a;
+    }
+
+    table.calendar td {
+      padding: 8px 0;
+      font-size: 14px;
+      border-radius: 50%;
+    }
+
+    table.calendar td.today {
+      background: #1a1a2e;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50%;
+    }
+
+    /* ===== LINK ===== */
+    .link-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .link-card p {
+      margin-bottom: 16px;
+      text-align: center;
+      color: #4a4a6a;
+    }
+
+    .link-card a {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #1a1a2e;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background 0.2s;
+    }
+
+    .link-card a:hover {
+      background: #2a2a4e;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="name-header">
+    <span>Grace</span>
+  </header>
+
+  <!-- JAM -->
+  <div class="card">
+    <h2>Jam</h2>
+    <div id="clock">00:00:00</div>
+    <div id="date-now">-</div>
+    <div class="clock-set">
+      <input type="number" id="set-hour" min="0" max="23" value="11" />
+      <span>:</span>
+      <input type="number" id="set-minute" min="0" max="59" value="38" />
+      <span>:</span>
+      <input type="number" id="set-second" min="0" max="59" value="0" />
+      <button id="set-clock-btn">Setel</button>
+    </div>
+  </div>
+
+  <!-- TIMER -->
+  <div class="card" id="timer-card">
+    <h2>Timer</h2>
+    <div class="timer-inputs">
+      <input type="number" id="hours" min="0" max="99" value="0" />
+      <span>jam</span>
+      <input type="number" id="minutes" min="0" max="59" value="0" />
+      <span>menit</span>
+      <input type="number" id="seconds" min="0" max="59" value="30" />
+      <span>detik</span>
+    </div>
+    <div id="timer-display">00:00:30</div>
+    <div class="timer-buttons">
+      <button id="start-btn">Mulai</button>
+      <button id="pause-btn">Jeda</button>
+      <button class="reset" id="reset-btn">Reset</button>
+    </div>
+  </div>
+
+  <!-- KALENDER -->
+  <div class="card">
+    <h2>Kalender</h2>
+    <div class="calendar-header">
+      <button id="prev-month">&lt;</button>
+      <span id="month-year">-</span>
+      <button id="next-month">&gt;</button>
+    </div>
+    <table class="calendar">
+      <thead>
+        <tr>
+          <th>Min</th><th>Sen</th><th>Sel</th><th>Rab</th><th>Kam</th><th>Jum</th><th>Sab</th>
+        </tr>
+      </thead>
+      <tbody id="calendar-body"></tbody>
+    </table>
+  </div>
+
+  <!-- LINK WEBSITE -->
+  <div class="card link-card">
+    <h2>Link Website</h2>
+    <p>Klik tombol di bawah untuk membuka website.</p>
+    <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Buka Google</a>
+  </div>
+
+  <script>
+    /* ===== JAM ===== */
+    const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    // Waktu mulai: 11:38:00 WITA — Selasa, 18 November 2026 (berjalan real-time)
+    let clockStartSec = 11 * 3600 + 38 * 60;
+    let clockPageLoad = Date.now();
+
+    function updateClock() {
+      const elapsed = Math.floor((Date.now() - clockPageLoad) / 1000);
+      const totalSec = (clockStartSec + elapsed) % 86400;
+      const h = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+      const s = String(totalSec % 60).padStart(2, '0');
+      document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+      document.getElementById('date-now').textContent = 'WITA · Selasa, 18 November 2026';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Setel jam manual: jam, menit, detik
+    document.getElementById('set-clock-btn').addEventListener('click', () => {
+      const hh = parseInt(document.getElementById('set-hour').value) || 0;
+      const mm = parseInt(document.getElementById('set-minute').value) || 0;
+      const ss = parseInt(document.getElementById('set-second').value) || 0;
+      clockStartSec = hh * 3600 + mm * 60 + ss;
+      clockPageLoad = Date.now();
+      updateClock();
+    });
+
+    /* ===== TIMER ===== */
+    let timerInterval = null;
+    let totalSeconds = 0;
+
+    function updateTimerDisplay() {
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+      const s = String(totalSeconds % 60).padStart(2, '0');
+      document.getElementById('timer-display').textContent = `${h}:${m}:${s}`;
+    }
+
+    function setTimerFromInputs() {
+      const hrs = parseInt(document.getElementById('hours').value) || 0;
+      const mins = parseInt(document.getElementById('minutes').value) || 0;
+      const secs = parseInt(document.getElementById('seconds').value) || 0;
+      totalSeconds = hrs * 3600 + mins * 60 + secs;
+      updateTimerDisplay();
+    }
+
+    document.getElementById('hours').addEventListener('input', setTimerFromInputs);
+    document.getElementById('minutes').addEventListener('input', setTimerFromInputs);
+    document.getElementById('seconds').addEventListener('input', setTimerFromInputs);
+
+    document.getElementById('start-btn').addEventListener('click', () => {
+      if (timerInterval) return;
+      setTimerFromInputs();          // selalu baca ulang jam, menit, detik
+      if (totalSeconds <= 0) return;
+      timerInterval = setInterval(() => {
+        totalSeconds--;
+        updateTimerDisplay();
+        if (totalSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert('Waktu habis!');
+        }
+      }, 1000);
+    });
+
+    document.getElementById('pause-btn').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      setTimerFromInputs();
+    });
+
+    setTimerFromInputs();
+
+    /* ===== KALENDER ===== */
+    let viewDate = new Date(2026, 10, 18);
+
+    function renderCalendar() {
+      const year = viewDate.getFullYear();
+      const month = viewDate.getMonth();
+      document.getElementById('month-year').textContent = `${bulan[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date(2026, 10, 18);
+
+      const tbody = document.getElementById('calendar-body');
+      tbody.innerHTML = '';
+
+      let row = document.createElement('tr');
+      for (let i = 0; i < firstDay; i++) {
+        row.appendChild(document.createElement('td'));
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const cell = document.createElement('td');
+        cell.textContent = day;
+        if (day === today.getDate() &&
+            month === today.getMonth() &&
+            year === today.getFullYear()) {
+          cell.classList.add('today');
+        }
+        row.appendChild(cell);
+        if ((firstDay + day) % 7 === 0) {
+          tbody.appendChild(row);
+          row = document.createElement('tr');
+        }
+      }
+      if (row.children.length > 0) tbody.appendChild(row);
+    }
+
+    document.getElementById('prev-month').addEventListener('click', () => {
+      viewDate.setMonth(viewDate.getMonth() - 1);
+      renderCalendar();
+    });
+    document.getElementById('next-month').addEventListener('click', () => {
+      viewDate.setMonth(viewDate.getMonth() + 1);
+      renderCalendar();
+    });
+    renderCalendar();
+  </script>
+</body>
+</html>
